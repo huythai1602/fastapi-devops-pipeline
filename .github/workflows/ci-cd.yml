@@ -105,6 +105,7 @@ jobs:
         run: |
           command -v unzip
           command -v wget
+          command -v jq
 
       - name: Scan with SonarQube
         uses: SonarSource/sonarqube-scan-action@v6
@@ -115,8 +116,6 @@ jobs:
       - name: Enforce SonarQube Quality Gate
         uses: SonarSource/sonarqube-quality-gate-action@v1
         timeout-minutes: 5
-        with:
-          pollingTimeoutSec: 300
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
