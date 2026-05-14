@@ -3,8 +3,7 @@ name: CI/CD
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
+  workflow_dispatch:
 
 env:
   PYTHON_VERSION: "3.11"
@@ -102,8 +101,13 @@ jobs:
         with:
           name: coverage-report
 
+      - name: Verify runner prerequisites
+        run: |
+          command -v unzip
+          command -v wget
+
       - name: Scan with SonarQube
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
