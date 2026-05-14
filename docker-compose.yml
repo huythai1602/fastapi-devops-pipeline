@@ -1,0 +1,36 @@
+services:
+  app-blue:
+    image: ${APP_IMAGE:-fastapi-devops-pipeline:latest}
+    container_name: fastapi-blue
+    profiles: ["blue"]
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import json, urllib.request; assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3))['status'] == 'healthy'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app-green:
+    image: ${APP_IMAGE:-fastapi-devops-pipeline:latest}
+    container_name: fastapi-green
+    profiles: ["green"]
+    ports:
+      - "8002:8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import json, urllib.request; assert json.load(urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3))['status'] == 'healthy'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
