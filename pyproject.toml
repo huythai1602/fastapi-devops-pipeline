@@ -11,7 +11,7 @@ pythonpath = ["."]
 
 [tool.coverage.run]
 branch = true
-source = ["app"]
+include = ["app/*"]
 
 [tool.coverage.report]
 show_missing = true
